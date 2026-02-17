@@ -18,7 +18,7 @@ public class HotelAnalyticsServiceImpl implements HotelAnalyticsService {
     HotelRepository hotelRepository;
 
     @Override
-    public Map<String, Integer> histogramBy(String param) {
+    public Map<String, Long> histogramBy(String param) {
         List<Object[]> results = switch (param.toLowerCase()) {
             case "brand" -> hotelRepository.countByBrand();
             case "city" -> hotelRepository.countByCity();
@@ -26,6 +26,6 @@ public class HotelAnalyticsServiceImpl implements HotelAnalyticsService {
             case "amenities" -> hotelRepository.countByAmenities();
             default -> throw new IllegalArgumentException("Unknown histogram parameter: " + param);
         };
-        return  results.stream().collect(Collectors.toMap(r->(String)r[0], r->(Integer) r[1]));
+        return  results.stream().collect(Collectors.toMap(r->(String)r[0], r->(Long) r[1]));
     }
 }

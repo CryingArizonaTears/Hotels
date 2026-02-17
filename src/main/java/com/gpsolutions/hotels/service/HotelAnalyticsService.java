@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface HotelAnalyticsService {
 
-    Map<String, Integer> histogramBy(String param);
+    Map<String, Long> histogramBy(String param);
 }

@@ -49,6 +49,9 @@ public class HotelController {
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "Получение списка всех отелей с их краткой информацией по следующим параметрам:" +
+            " name, brand, city, country, amenities")
+    @ApiResponse(responseCode = "200", description = "Список отелей получен")
     public List<HotelShortDto> searchHotels(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String brand,
@@ -61,12 +64,27 @@ public class HotelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(
+            summary = "Создание нового отеля",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Отель создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+            }
+    )
     public HotelShortDto createHotel(@Valid @RequestBody HotelFullDto hotelDto) {
         return hotelService.create(hotelDto);
     }
 
     @PostMapping("/{id}/amenities")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+            summary = "Добавление списка удобств к отелю",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Список удобств добавлен", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
+                    @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+            }
+    )
     public void addAmenities(@PathVariable Long id, @Valid @RequestBody AmenitiesDto amenities) {
         hotelService.addAmenities(id, amenities);
     }
