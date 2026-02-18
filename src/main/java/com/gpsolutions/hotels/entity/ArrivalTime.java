@@ -1,12 +1,14 @@
 package com.gpsolutions.hotels.entity;
 
 import jakarta.persistence.Embeddable;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Embeddable
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@FieldDefaults(makeFinal = false)
 public class ArrivalTime {
     String checkIn;
     String checkOut;

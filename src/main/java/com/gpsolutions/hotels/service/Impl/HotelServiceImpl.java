@@ -12,16 +12,13 @@ import com.gpsolutions.hotels.service.HotelService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-@FieldDefaults(makeFinal = true)
 public class HotelServiceImpl implements HotelService {
 
     HotelRepository hotelRepository;

@@ -1,17 +1,17 @@
 package com.gpsolutions.hotels.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@FieldDefaults(makeFinal = false)
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_seq")

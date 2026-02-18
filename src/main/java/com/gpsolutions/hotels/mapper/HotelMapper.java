@@ -13,9 +13,21 @@ import java.util.StringJoiner;
 @Mapper(componentModel = "spring")
 public interface HotelMapper {
 
-    @Mapping(target = "address", expression = "java(formatAddress(hotel))")
-    @Mapping(target = "phone", expression = "java(hotel.getContacts().getPhone())")
+    @Mapping(target = "address", source = "address")
+    @Mapping(target = "phone", source = "contacts.phone")
     HotelShortDto toShortDto(Hotel hotel);
+
+    default String map(Address address) {
+        if (address == null) {
+            return null;
+        }
+
+        return address.getHouseNumber() + " "
+                + address.getStreet() + ", "
+                + address.getCity() + ", "
+                + address.getPostCode() + ", "
+                + address.getCountry();
+    }
 
     @Mapping(target = "address", source = "address")
     @Mapping(target = "contacts", source = "contacts")
