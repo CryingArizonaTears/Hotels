@@ -7,6 +7,7 @@ import com.gpsolutions.hotels.entity.Contacts;
 import com.gpsolutions.hotels.entity.Hotel;
 import com.gpsolutions.hotels.mapper.HotelMapper;
 import com.gpsolutions.hotels.repo.HotelRepository;
+import com.gpsolutions.hotels.utils.HotelTestData;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,122 +34,21 @@ class HotelServiceImplTest {
     HotelRepository hotelRepository;
     HotelMapper hotelMapper = Mappers.getMapper(HotelMapper.class);
     HotelServiceImpl hotelServiceImpl;
-    Address addressForTestingFirst = new Address();
-    ArrivalTime arrivalTimeForTestingFirst = new ArrivalTime();
-    Contacts contactsForTestingFirst = new Contacts();
-    Hotel hotelForTestingFirst = new Hotel();
-    Address addressForTestingSecond = new Address();
-    ArrivalTime arrivalTimeForTestingSecond = new ArrivalTime();
-    Contacts contactsForTestingSecond = new Contacts();
-    Hotel hotelForTestingSecond = new Hotel();
-    AddressDto addressDtoForTesting;
-    ArrivalTimeDto arrivalTimeDtoForTesting;
-    ContactsDto contactsDtoForTesting;
+    Hotel hotelForTestingFirst;
+    Hotel hotelForTestingSecond;
     HotelFullDto hotelFullDtoForTesting;
     HotelShortDto hotelShortDtoForTestingFirst;
-    HotelShortDto hotelShortDtoForTestingSecond;
     List<HotelShortDto> hotelShortDtoForTestingList;
-
 
     @BeforeEach
     void setUp() {
-
         hotelServiceImpl = new HotelServiceImpl(hotelRepository, hotelMapper);
 
-        //first hotel
-        addressForTestingFirst.setCity("testCity1");
-        addressForTestingFirst.setCountry("testCountry1");
-        addressForTestingFirst.setStreet("testStreet1");
-        addressForTestingFirst.setPostCode("testPostCode1");
-        addressForTestingFirst.setHouseNumber(1);
-
-        arrivalTimeForTestingFirst.setCheckIn("testCheckIn1");
-        arrivalTimeForTestingFirst.setCheckOut("testCheckOut1");
-
-        contactsForTestingFirst.setEmail("testEmail1");
-        contactsForTestingFirst.setPhone("testPhone1");
-
-        hotelForTestingFirst = new Hotel();
-        hotelForTestingFirst.setId(1L);
-        hotelForTestingFirst.setBrand("testBrand1");
-        hotelForTestingFirst.setName("testName1");
-        hotelForTestingFirst.setDescription("testDescription1");
-        hotelForTestingFirst.setAddress(addressForTestingFirst);
-        hotelForTestingFirst.setArrivalTime(arrivalTimeForTestingFirst);
-        hotelForTestingFirst.setContacts(contactsForTestingFirst);
-
-        //second hotel
-        addressForTestingSecond.setCity("testCity2");
-        addressForTestingSecond.setCountry("testCountry2");
-        addressForTestingSecond.setStreet("testStreet2");
-        addressForTestingSecond.setPostCode("testPostCode2");
-        addressForTestingSecond.setHouseNumber(2);
-
-        arrivalTimeForTestingSecond.setCheckIn("testCheckIn2");
-        arrivalTimeForTestingSecond.setCheckOut("testCheckOut2");
-
-        contactsForTestingSecond.setEmail("testEmail2");
-        contactsForTestingSecond.setPhone("testPhone2");
-
-        hotelForTestingSecond = new Hotel();
-        hotelForTestingSecond.setId(2L);
-        hotelForTestingSecond.setBrand("testBrand2");
-        hotelForTestingSecond.setName("testName2");
-        hotelForTestingSecond.setDescription("testDescription2");
-        hotelForTestingSecond.setAddress(addressForTestingSecond);
-        hotelForTestingSecond.setArrivalTime(arrivalTimeForTestingSecond);
-        hotelForTestingSecond.setContacts(contactsForTestingSecond);
-
-        //fullHotelDto
-        addressDtoForTesting = new AddressDto(
-                1,
-                "testStreet1",
-                "testCity1",
-                "testCountry1",
-                "testPostCode1"
-        );
-
-        arrivalTimeDtoForTesting = new ArrivalTimeDto(
-                "testCheckIn1",
-                "testCheckOut1"
-        );
-
-        contactsDtoForTesting = new ContactsDto(
-                "testPhone1",
-                "testEmail1"
-        );
-
-        hotelFullDtoForTesting = new HotelFullDto(
-                1L,
-                "testName1",
-                "testDescription1",
-                "testBrand1",
-                addressDtoForTesting,
-                contactsDtoForTesting,
-                arrivalTimeDtoForTesting,
-                Set.of()
-        );
-
-        //first shortHotelDto
-        hotelShortDtoForTestingFirst = new HotelShortDto(
-                1L,
-                "testName1",
-                "testDescription1",
-                "1 testStreet1, testCity1, testPostCode1, testCountry1",
-                "testPhone1"
-        );
-
-        //second shortHotelDto
-        hotelShortDtoForTestingSecond = new HotelShortDto(
-                2L,
-                "testName2",
-                "testDescription2",
-                "2 testStreet2, testCity2, testPostCode2, testCountry2",
-                "testPhone2"
-        );
-
-        hotelShortDtoForTestingList = List.of(hotelShortDtoForTestingFirst, hotelShortDtoForTestingSecond);
-
+        hotelForTestingFirst = HotelTestData.createFirstHotel();
+        hotelForTestingSecond = HotelTestData.createSecondHotel();
+        hotelFullDtoForTesting = HotelTestData.createFirstFullDto();
+        hotelShortDtoForTestingFirst = HotelTestData.createFirstShortDto();
+        hotelShortDtoForTestingList = HotelTestData.createShortDtoList();
     }
 
     @Test
