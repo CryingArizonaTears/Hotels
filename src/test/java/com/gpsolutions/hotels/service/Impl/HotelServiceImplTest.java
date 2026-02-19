@@ -1,9 +1,8 @@
 package com.gpsolutions.hotels.service.Impl;
 
-import com.gpsolutions.hotels.dto.*;
-import com.gpsolutions.hotels.entity.Address;
-import com.gpsolutions.hotels.entity.ArrivalTime;
-import com.gpsolutions.hotels.entity.Contacts;
+import com.gpsolutions.hotels.dto.AmenitiesDto;
+import com.gpsolutions.hotels.dto.HotelFullDto;
+import com.gpsolutions.hotels.dto.HotelShortDto;
 import com.gpsolutions.hotels.entity.Hotel;
 import com.gpsolutions.hotels.mapper.HotelMapper;
 import com.gpsolutions.hotels.repo.HotelRepository;

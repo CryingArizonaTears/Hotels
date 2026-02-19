@@ -5,7 +5,6 @@ import com.gpsolutions.hotels.dto.HotelFullDto;
 import com.gpsolutions.hotels.dto.HotelShortDto;
 
 import java.util.List;
-import java.util.Set;
 
 public interface HotelService {
 

@@ -2,7 +2,6 @@ package com.gpsolutions.hotels.service.Impl;
 
 import com.gpsolutions.hotels.repo.HotelRepository;
 import com.gpsolutions.hotels.service.HotelAnalyticsService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,10 @@
 package com.gpsolutions.hotels.utils;
 
 import com.gpsolutions.hotels.dto.*;
-import com.gpsolutions.hotels.entity.*;
+import com.gpsolutions.hotels.entity.Address;
+import com.gpsolutions.hotels.entity.ArrivalTime;
+import com.gpsolutions.hotels.entity.Contacts;
+import com.gpsolutions.hotels.entity.Hotel;
 
 import java.util.List;
 import java.util.Set;
