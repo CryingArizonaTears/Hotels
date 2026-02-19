@@ -26,6 +26,10 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     public List<HotelShortDto> getAll() {
+        var result = hotelRepository.findAll();
+        if (result.isEmpty()) {
+            throw new EntityNotFoundException("Hotels not found");
+        }
         return hotelRepository.findAll().stream().map(hotelMapper::toShortDto).toList();
     }
 
@@ -64,7 +68,12 @@ public class HotelServiceImpl implements HotelService {
             );
         }
 
-        return hotelRepository.findAll(spec).stream()
+        var result = hotelRepository.findAll(spec);
+        if (result.isEmpty()) {
+            throw  new EntityNotFoundException("Hotels with given params not found");
+        }
+
+        return result.stream()
                 .map(hotelMapper::toShortDto)
                 .toList();
     }

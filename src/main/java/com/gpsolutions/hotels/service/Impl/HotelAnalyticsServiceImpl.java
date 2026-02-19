@@ -2,6 +2,7 @@ package com.gpsolutions.hotels.service.Impl;
 
 import com.gpsolutions.hotels.repo.HotelRepository;
 import com.gpsolutions.hotels.service.HotelAnalyticsService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,9 @@ public class HotelAnalyticsServiceImpl implements HotelAnalyticsService {
             case "amenities" -> hotelRepository.countByAmenities();
             default -> throw new IllegalArgumentException("Unknown histogram parameter: " + param);
         };
+        if (results.isEmpty()) {
+            return Map.of(param, 0L);
+        }
         return results.stream().collect(Collectors.toMap(r -> (String) r[0], r -> (Long) r[1]));
     }
 }

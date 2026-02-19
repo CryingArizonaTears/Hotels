@@ -3,6 +3,7 @@ package com.gpsolutions.hotels.controller;
 import com.gpsolutions.hotels.handler.ExceptionResponse;
 import com.gpsolutions.hotels.service.HotelAnalyticsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,8 +26,23 @@ public class HotelAnalyticsController {
     @Operation(
             summary = "Получение колличества отелей сгруппированных по каждому значению указанного параметра. " +
                     "Параметр: brand, city, country, amenities.",
+            parameters = {
+                    @Parameter(
+                            name = "param",
+                            description = "Параметр для группировки: brand, city, country, amenities",
+                            example = "brand",
+                            required = true
+                    )
+            },
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Список отелей получен",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(example = "{\"brand\": 10, \"city\": 5}")
+                            )
+                    ),
                     @ApiResponse(responseCode = "400", description = "Неверный параметр", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
             }
     )
