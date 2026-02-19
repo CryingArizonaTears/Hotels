@@ -30,7 +30,7 @@ public class HotelServiceImpl implements HotelService {
         if (result.isEmpty()) {
             throw new EntityNotFoundException("Hotels not found");
         }
-        return hotelRepository.findAll().stream().map(hotelMapper::toShortDto).toList();
+        return result.stream().map(hotelMapper::toShortDto).toList();
     }
 
     @Override
