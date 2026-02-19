@@ -14,8 +14,7 @@ import java.util.Set;
 @FieldDefaults(makeFinal = false)
 public class Hotel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_seq")
-    @SequenceGenerator(name = "hotel_seq", sequenceName = "hotel_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
     String description;

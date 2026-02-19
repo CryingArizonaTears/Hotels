@@ -1,0 +1,26 @@
+services:
+
+  postgres:
+    image: postgres:alpine3.22
+    container_name: app-postgres
+    environment:
+      POSTGRES_DB: hotels
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    profiles:
+      - postgres
+
+  mysql:
+    image: mysql:lts
+    container_name: app-mysql
+    environment:
+      MYSQL_DATABASE: hotels
+      MYSQL_USER: user
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3333:3306"
+    profiles:
+      - mysql

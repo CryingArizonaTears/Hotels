@@ -6,6 +6,7 @@ import com.gpsolutions.hotels.dto.HotelShortDto;
 import com.gpsolutions.hotels.handler.ExceptionResponse;
 import com.gpsolutions.hotels.service.HotelService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public class HotelController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получение списка всех отелей с их краткой информацией")
-    @ApiResponse(responseCode = "200", description = "Список отелей получен")
+    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class))))
     public List<HotelShortDto> getHotels() {
         return hotelService.getAll();
     }
@@ -37,7 +38,7 @@ public class HotelController {
     @Operation(
             summary = "Получение расширенной информации по конкретному отелю",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Расширенная информация получена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "200", description = "Расширенная информация получена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HotelFullDto.class))),
                     @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
             }
     )
@@ -49,7 +50,7 @@ public class HotelController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получение списка всех отелей с их краткой информацией по следующим параметрам:" +
             " name, brand, city, country, amenities")
-    @ApiResponse(responseCode = "200", description = "Список отелей получен")
+    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class))))
     public List<HotelShortDto> searchHotels(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String brand,
@@ -65,7 +66,7 @@ public class HotelController {
     @Operation(
             summary = "Создание нового отеля",
             responses = {
-                    @ApiResponse(responseCode = "201", description = "Отель создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "201", description = "Отель создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HotelShortDto.class))),
                     @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
             }
     )
@@ -78,7 +79,7 @@ public class HotelController {
     @Operation(
             summary = "Добавление списка удобств к отелю",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Список удобств добавлен", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
+                    @ApiResponse(responseCode = "200", description = "Список удобств добавлен"),
                     @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
                     @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
             }
