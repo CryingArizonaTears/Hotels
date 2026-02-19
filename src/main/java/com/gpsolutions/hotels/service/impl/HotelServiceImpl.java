@@ -71,7 +71,7 @@ public class HotelServiceImpl implements HotelService {
 
         var result = hotelRepository.findAll(spec);
         if (result.isEmpty()) {
-            throw  new EntityNotFoundException("Hotels with given params not found");
+            throw new EntityNotFoundException("Hotels with given params not found");
         }
 
         return result.stream()
