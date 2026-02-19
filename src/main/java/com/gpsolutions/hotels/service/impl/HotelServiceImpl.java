@@ -10,15 +10,16 @@ import com.gpsolutions.hotels.mapper.HotelMapper;
 import com.gpsolutions.hotels.repo.HotelRepository;
 import com.gpsolutions.hotels.service.HotelService;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HotelServiceImpl implements HotelService {
 
     HotelRepository hotelRepository;
@@ -79,6 +80,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelShortDto create(HotelFullDto hotelFullDto) {
         var hotel = hotelRepository.save(hotelMapper.fromFullDto(hotelFullDto));
         return hotelMapper.toShortDto(hotel);
