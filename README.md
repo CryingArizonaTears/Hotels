@@ -10,7 +10,7 @@ mvn spring-boot:run -Dspring-boot.run.profiles=mysql
 h2: логин sa, пароля нет.
 
 Перед запуском конфигурации с postgres/mysql, запустить соответствующие бдшки с параметрами:
-postgres: порт 5432. пользователь и пароль postgres.
-mysql: порт 3333. пользователь user, пароль root.
+postgres: порт 5432. пользователь и пароль postgres, дб hotels.
+mysql: порт 3333. пользователь user, пароль root, дб hotels.
 
 Либо просто запустить докеркомпуз с необходимой бдшкой.
