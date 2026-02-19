@@ -44,7 +44,7 @@ public class HotelServiceImpl implements HotelService {
 
         if (name != null) {
             spec = spec.and((root, query, cb) ->
-                    cb.like(cb.lower(root.get(Hotel_.name)), "%" + name.toLowerCase() + "%"));
+                    cb.equal(root.get(Hotel_.name), name));
         }
 
         if (brand != null) {
