@@ -1,6 +1,6 @@
 package com.gpsolutions.hotels.controller;
 
-import com.gpsolutions.hotels.service.Impl.HotelAnalyticsServiceImpl;
+import com.gpsolutions.hotels.service.impl.HotelAnalyticsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.junit.jupiter.api.BeforeEach;

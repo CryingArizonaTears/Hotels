@@ -3,7 +3,7 @@
     import com.gpsolutions.hotels.dto.AmenitiesDto;
     import com.gpsolutions.hotels.dto.HotelFullDto;
     import com.gpsolutions.hotels.dto.HotelShortDto;
-    import com.gpsolutions.hotels.service.Impl.HotelServiceImpl;
+    import com.gpsolutions.hotels.service.impl.HotelServiceImpl;
     import com.gpsolutions.hotels.utils.HotelTestData;
     import jakarta.persistence.EntityNotFoundException;
     import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.gpsolutions.hotels.service.Impl;
+package com.gpsolutions.hotels.service.impl;
 
 import com.gpsolutions.hotels.repo.HotelRepository;
 import com.gpsolutions.hotels.service.HotelAnalyticsService;
