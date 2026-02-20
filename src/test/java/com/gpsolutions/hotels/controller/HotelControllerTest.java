@@ -111,7 +111,7 @@
             given()
                     .queryParam("name", "testName1")
                     .when()
-                    .get("/property-view/hotels/search")
+                    .get("/property-view/search")
                     .then()
                     .statusCode(200)
                     .body("$.size()", is(1))

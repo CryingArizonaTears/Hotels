@@ -42,7 +42,7 @@ class HotelAnalyticsControllerTest {
         given()
                 .contentType("application/json")
                 .when()
-                .get("/property-view/hotels/histogram/{param}", "brand")
+                .get("/property-view/histogram/{param}", "brand")
                 .then()
                 .statusCode(200)
                 .body("testBrand1", equalTo(1))
@@ -57,7 +57,7 @@ class HotelAnalyticsControllerTest {
         given()
                 .contentType("application/json")
                 .when()
-                .get("/property-view/hotels/histogram/{param}", "testInvalidParam")
+                .get("/property-view/histogram/{param}", "testInvalidParam")
                 .then()
                 .statusCode(400)
                 .body("message", equalTo("Unknown histogram parameter: testInvalidParam"));

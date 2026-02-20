@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/property-view/hotels")
+@RequestMapping("/property-view")
 @RequiredArgsConstructor
 public class HotelController {
 
     HotelService hotelService;
 
-    @GetMapping
+    @GetMapping("/hotels")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получение списка всех отелей с их краткой информацией")
     @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json",
@@ -53,7 +53,7 @@ public class HotelController {
         return hotelService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/hotels/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Получение расширенной информации по конкретному отелю",
@@ -118,7 +118,7 @@ public class HotelController {
         return hotelService.search(name, brand, city, country, amenities);
     }
 
-    @PostMapping
+    @PostMapping("/hotels")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(
             summary = "Создание нового отеля",
@@ -176,7 +176,7 @@ public class HotelController {
         return hotelService.create(hotelDto);
     }
 
-    @PostMapping("/{id}/amenities")
+    @PostMapping("/hotels/{id}/amenities")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(
             summary = "Добавление списка удобств к отелю",

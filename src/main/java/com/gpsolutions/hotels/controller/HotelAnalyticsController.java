@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/property-view/hotels/histogram")
+@RequestMapping("/property-view")
 @RequiredArgsConstructor
 public class HotelAnalyticsController {
 
     HotelAnalyticsService hotelAnalyticsService;
 
-    @GetMapping("/{param}")
+    @GetMapping("histogram/{param}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(
             summary = "Получение колличества отелей сгруппированных по каждому значению указанного параметра. " +
