@@ -15,7 +15,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,15 +41,15 @@ class HotelRepositoryTest {
         hotelRepository.deleteAll();
 
         Hotel firstHotel = HotelTestData.createFirstHotel();
-        firstHotel.setAmenities(Set.of("testAmenity1", "testAmenity2"));
+        firstHotel.setAmenities(List.of("testAmenity1", "testAmenity2"));
         firstHotel.setId(null);
 
         Hotel secondHotel = HotelTestData.createFirstHotel();
-        secondHotel.setAmenities(Set.of("testAmenity1", "testAmenity2"));
+        secondHotel.setAmenities(List.of("testAmenity1", "testAmenity2"));
         secondHotel.setId(null);
 
         Hotel thirdHotel = HotelTestData.createSecondHotel();
-        thirdHotel.setAmenities(Set.of("testAmenity3", "testAmenity4"));
+        thirdHotel.setAmenities(List.of("testAmenity3", "testAmenity4"));
         thirdHotel.setId(null);
 
         hotelRepository.saveAll(List.of(firstHotel, secondHotel, thirdHotel));

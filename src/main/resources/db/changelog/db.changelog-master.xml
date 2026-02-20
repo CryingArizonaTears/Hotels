@@ -36,6 +36,9 @@
             <column name="amenity" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="amenity_order" type="INT">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="hotel_amenities"

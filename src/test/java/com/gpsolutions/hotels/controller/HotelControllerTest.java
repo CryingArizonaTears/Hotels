@@ -1,6 +1,5 @@
     package com.gpsolutions.hotels.controller;
 
-    import com.gpsolutions.hotels.dto.AmenitiesDto;
     import com.gpsolutions.hotels.dto.HotelFullDto;
     import com.gpsolutions.hotels.dto.HotelShortDto;
     import com.gpsolutions.hotels.service.impl.HotelServiceImpl;
@@ -15,7 +14,6 @@
     import org.springframework.web.context.WebApplicationContext;
 
     import java.util.List;
-    import java.util.Set;
 
     import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
     import static io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetup;
@@ -36,7 +34,7 @@
         HotelFullDto hotelFullDtoForTesting;
         HotelShortDto hotelShortDtoForTestingFirst;
         List<HotelShortDto> hotelShortDtoForTestingList;
-        AmenitiesDto amenities;
+        List<String> amenities;
 
         @BeforeEach
         void setUp() {
@@ -44,7 +42,7 @@
             hotelFullDtoForTesting = HotelTestData.createFirstFullDto();
             hotelShortDtoForTestingFirst = HotelTestData.createFirstShortDto();
             hotelShortDtoForTestingList = HotelTestData.createShortDtoList();
-            amenities = new AmenitiesDto(Set.of("testAmenity1"));
+            amenities = List.of("testAmenity1");
         }
 
         @Test
@@ -72,7 +70,7 @@
 
             given()
                     .when()
-                    .get("/property-view//hotels/{id}", 1L)
+                    .get("/property-view/hotels/{id}", 1L)
                     .then()
                     .statusCode(200)
                     .body("id", equalTo(1))
@@ -166,21 +164,6 @@
 
             verify(hotelService).addAmenities(eq(1L), eq(amenities));
         }
-
-        @Test
-        void addAmenities_ValidationError() {
-            AmenitiesDto invalidAmenities = new AmenitiesDto(Set.of());
-
-            given()
-                    .contentType("application/json")
-                    .body(invalidAmenities)
-                    .when()
-                    .post("/property-view/hotels/{id}/amenities", 1)
-                    .then()
-                    .statusCode(400)
-                    .body("message", containsString("Amenities is required"));
-        }
-
 
         @Test
         void addAmenities_NotFound() {

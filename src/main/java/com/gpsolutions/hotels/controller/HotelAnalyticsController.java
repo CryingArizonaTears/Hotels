@@ -39,7 +39,7 @@ public class HotelAnalyticsController {
                             description = "Список отелей получен",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(example = "{\"brand\": 10, \"city\": 5}")
+                                    schema = @Schema(example = "{\"Hilton\": 1}")
                             )
                     ),
                     @ApiResponse(responseCode = "400", description = "Неверный параметр", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))

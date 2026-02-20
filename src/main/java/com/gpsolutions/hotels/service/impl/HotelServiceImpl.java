@@ -1,6 +1,5 @@
 package com.gpsolutions.hotels.service.impl;
 
-import com.gpsolutions.hotels.dto.AmenitiesDto;
 import com.gpsolutions.hotels.dto.HotelFullDto;
 import com.gpsolutions.hotels.dto.HotelShortDto;
 import com.gpsolutions.hotels.entity.Address_;
@@ -10,6 +9,7 @@ import com.gpsolutions.hotels.mapper.HotelMapper;
 import com.gpsolutions.hotels.repo.HotelRepository;
 import com.gpsolutions.hotels.service.HotelService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -45,28 +45,30 @@ public class HotelServiceImpl implements HotelService {
 
         if (name != null) {
             spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get(Hotel_.name), name));
+                    cb.equal(cb.lower(root.get(Hotel_.name)), name.toLowerCase()));
         }
 
         if (brand != null) {
             spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get(Hotel_.brand), brand));
+                    cb.equal( cb.lower(root.get(Hotel_.brand)), brand.toLowerCase()));
         }
 
         if (city != null) {
             spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get(Hotel_.address).get(Address_.city), city));
+                    cb.equal(cb.lower(root.get(Hotel_.address).get(Address_.city)), city.toLowerCase()));
         }
 
         if (country != null) {
             spec = spec.and((root, query, cb) ->
-                    cb.equal(root.get(Hotel_.address).get(Address_.country), country));
+                    cb.equal(cb.lower(root.get(Hotel_.address).get(Address_.country)), country.toLowerCase()));
         }
 
-        if (amenities != null) {
-            spec = spec.and((root, query, cb) ->
-                    cb.isMember(amenities, root.get(Hotel_.amenities))
-            );
+        if (amenities != null && !amenities.isEmpty()) {
+            String amenityLower = amenities.toLowerCase();
+            spec = spec.and((root, query, cb) -> {
+                Join<Hotel, String> amenityJoin = root.join(Hotel_.amenities);
+                return cb.equal(cb.lower(amenityJoin), amenityLower);
+            });
         }
 
         var result = hotelRepository.findAll(spec);
@@ -88,9 +90,9 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     @Transactional
-    public void addAmenities(Long hotelId, AmenitiesDto amenities) {
+    public void addAmenities(Long hotelId, List<String> amenities) {
         var hotelFromRepo = hotelRepository.findById(hotelId).orElseThrow(() -> new EntityNotFoundException("Hotel with id " + hotelId + " not found"));
-        hotelFromRepo.setAmenities(amenities.amenities());
+        hotelFromRepo.setAmenities(amenities);
         hotelRepository.save(hotelFromRepo);
     }
 }

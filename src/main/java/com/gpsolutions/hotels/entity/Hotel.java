@@ -5,7 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,5 +33,6 @@ public class Hotel {
             joinColumns = @JoinColumn(name = "hotel_id")
     )
     @Column(name = "amenity")
-    Set<String> amenities = new HashSet<>();
+    @OrderColumn(name = "amenity_order")
+    List<String> amenities = new ArrayList<>();
 }

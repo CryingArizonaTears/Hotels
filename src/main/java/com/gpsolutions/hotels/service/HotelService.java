@@ -1,6 +1,5 @@
 package com.gpsolutions.hotels.service;
 
-import com.gpsolutions.hotels.dto.AmenitiesDto;
 import com.gpsolutions.hotels.dto.HotelFullDto;
 import com.gpsolutions.hotels.dto.HotelShortDto;
 
@@ -16,6 +15,6 @@ public interface HotelService {
 
     HotelShortDto create(HotelFullDto hotelFullDto);
 
-    void addAmenities(Long hotelId, AmenitiesDto amenities);
+    void addAmenities(Long hotelId, List<String > amenities);
 
 }

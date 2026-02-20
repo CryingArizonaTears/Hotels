@@ -1,6 +1,5 @@
 package com.gpsolutions.hotels.controller;
 
-import com.gpsolutions.hotels.dto.AmenitiesDto;
 import com.gpsolutions.hotels.dto.HotelFullDto;
 import com.gpsolutions.hotels.dto.HotelShortDto;
 import com.gpsolutions.hotels.handler.ExceptionResponse;
@@ -28,26 +27,17 @@ public class HotelController {
     @GetMapping("/hotels")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Получение списка всех отелей с их краткой информацией")
-    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class)),
-            examples = @ExampleObject(value = """
-                    [
-                      {
-                        "id": "testId1",
-                        "name": "testName1",
-                        "brand": "testBrand1",
-                        "city": "testCity1",
-                        "country": "testCountry1"
-                      },
-                      {
-                        "id": "testId2",
-                        "name": "testName2",
-                        "brand": "testBrand2",
-                        "city": "testCity2",
-                        "country": "testCountry2"
-                      }
-                    ]
-                    """)))
+    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class)), examples = @ExampleObject(value = """
+             [
+             	{
+            		"id": 1,
+            		"name": "DoubleTree by Hilton Minsk",
+            		"description": "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel`s 20th floor ...",
+            		"address": "9 Pobediteley Avenue, Minsk, 220004, Belarus",
+            		"phone": "+375 17 309-80-00"
+            	}
+            ]
+            """)))
     @ApiResponse(responseCode = "404", description = "Отели не найдены", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
     public List<HotelShortDto> getHotels() {
         return hotelService.getAll();
@@ -55,156 +45,123 @@ public class HotelController {
 
     @GetMapping("/hotels/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(
-            summary = "Получение расширенной информации по конкретному отелю",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Расширенная информация получена", content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HotelFullDto.class, example = """
-                                    {
-                                      "id": "testId1",
-                                      "name": "testName1",
-                                      "description": "testDescription1",
-                                      "brand": "testBrand1",
-                                      "houseNumber": "testHouseNumber1",
-                                      "street": "testStreet1",
-                                      "city": "testCity1",
-                                      "country": "testCountry1",
-                                      "postCode": "testPostCode1",
-                                      "phone": "testPhone1",
-                                      "email": "testEmail1",
-                                      "checkIn": "testCheckIn1",
-                                      "checkOut": "testCheckOut1",
-                                      "amenities": ["testAmenity1", "testAmenity2"]
-                                    }
-                                    """))),
-                    @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
-            }
-    )
+    @Operation(summary = "Получение расширенной информации по конкретному отелю", responses = {@ApiResponse(responseCode = "200", description = "Расширенная информация получена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HotelFullDto.class, example = """
+            {
+             			"id": 1,
+             			"name": "DoubleTree by Hilton Minsk",
+                        "description": "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel`s 20th floor ...",
+             			"brand": "Hilton",
+             			"address":
+             				{
+             					"houseNumber": 9,
+             					"street": "Pobediteley Avenue",
+             					"city": "Minsk",
+             					"country": "Belarus",
+             					"postCode": "220004"
+             				},
+             			"contacts":
+             				{
+             					"phone": "+375 17 309-80-00",
+             					"email": "doubletreeminsk.info@hilton.com"
+             				},
+             			"arrivalTime":
+             				{
+             					"checkIn": "14:00",
+             					"checkOut": "12:00"
+             				},
+             			"amenities":
+             				[
+             					"Free parking",
+             					"Free WiFi",
+             					"Non-smoking rooms",
+             					"Concierge",
+             					"On-site restaurant",
+             					"Fitness center",
+             					"Pet-friendly rooms",
+             					"Room service",
+             					"Business center",
+             					"Meeting rooms"
+             				]
+             		}
+            """))), @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))})
     public HotelFullDto getHotelById(@PathVariable Long id) {
         return hotelService.getById(id);
     }
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Получение списка всех отелей с их краткой информацией по следующим параметрам:" +
-            " name, brand, city, country, amenities")
-    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class)),
-            examples = @ExampleObject(value = """
-                    [
-                      {
-                        "id": "testId1",
-                        "name": "testName1",
-                        "brand": "testBrand1",
-                        "city": "testCity1",
-                        "country": "testCountry1"
-                      },
-                      {
-                        "id": "testId2",
-                        "name": "testName2",
-                        "brand": "testBrand2",
-                        "city": "testCity2",
-                        "country": "testCountry2"
-                      }
-                    ]
-                    """)))
-    public List<HotelShortDto> searchHotels(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String brand,
-            @RequestParam(required = false) String city,
-            @RequestParam(required = false) String country,
-            @RequestParam(required = false) String amenities
-    ) {
+    @Operation(summary = "Получение списка всех отелей с их краткой информацией по следующим параметрам:" + " name, brand, city, country, amenities")
+    @ApiResponse(responseCode = "200", description = "Список отелей получен", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = HotelShortDto.class)), examples = @ExampleObject(value = """
+            [
+            	{
+            		"id": 1,
+            		"name": "DoubleTree by Hilton Minsk",
+            		"description": "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel`s 20th floor ...",
+            		"address": "9 Pobediteley Avenue, Minsk, 220004, Belarus",
+            		"phone": "+375 17 309-80-00"
+            	}
+            ]
+            """)))
+    public List<HotelShortDto> searchHotels(@RequestParam(required = false) String name, @RequestParam(required = false) String brand, @RequestParam(required = false) String city, @RequestParam(required = false) String country, @RequestParam(required = false) String amenities) {
         return hotelService.search(name, brand, city, country, amenities);
     }
 
     @PostMapping("/hotels")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            summary = "Создание нового отеля",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Данные нового отеля",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = HotelFullDto.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Пример создания отеля",
-                                            value = """
-                                                    {
-                                                      "name": "testName1",
-                                                      "description": "testDescription1",
-                                                      "brand": "testBrand1",
-                                                      "address": {
-                                                        "houseNumber": 1,
-                                                        "street": "testStreet1",
-                                                        "city": "testCity1",
-                                                        "country": "testCountry1",
-                                                        "postCode": "testPostCode1"
-                                                      },
-                                                      "contacts": {
-                                                        "phone": "testPhone1",
-                                                        "email": "testEmail1"
-                                                      },
-                                                      "arrivalTime": {
-                                                        "checkIn": "testCheckIn1",
-                                                        "checkOut": "testCheckOut1"
-                                                      }
-                                                    }
-                                                    """
-                                    )
-                            }
-                    )
-            ),
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Отель создан", content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = HotelShortDto.class,
-                                    example = """
-                                            {
-                                              "id": "testId1",
-                                              "name": "testName1",
-                                              "brand": "testBrand1",
-                                              "city": "testCity1",
-                                              "country": "testCountry1"
-                                            }
-                                            """))),
-                    @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
+    @Operation(summary = "Создание нового отеля", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Данные нового отеля", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = HotelFullDto.class), examples = {@ExampleObject(name = "Пример создания отеля", value = """
+            {
+              "name": "DoubleTree by Hilton Minsk",
+              "description": "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel`s 20th floor ...",
+              "brand": "Hilton",
+              "address":
+                {
+                  "houseNumber": 9,
+                  "street": "Pobediteley Avenue",
+                  "city": "Minsk",
+                  "country": "Belarus",
+                  "postCode": "220004"
+                },
+              "contacts":
+                {
+                  "phone": "+375 17 309-80-00",
+                  "email": "doubletreeminsk.info@hilton.com"
+                },
+              "arrivalTime":
+                {
+                  "checkIn": "14:00",
+                  "checkOut": "12:00"
+                }
             }
-    )
+            """)})), responses = {@ApiResponse(responseCode = "201", description = "Отель создан", content = @Content(mediaType = "application/json", schema = @Schema(implementation = HotelShortDto.class, example = """
+            {
+             	"id": 1,
+             	"name": "DoubleTree by Hilton Minsk",
+             	"description": "The DoubleTree by Hilton Hotel Minsk offers 193 luxurious rooms in the Belorussian capital and stunning views of Minsk city from the hotel`s 20th floor ...",
+             	"address": "9 Pobediteley Avenue, Minsk, 220004, Belarus",
+             	"phone": "+375 17 309-80-00"
+            }
+            """))), @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))})
     public HotelShortDto createHotel(@Valid @RequestBody HotelFullDto hotelDto) {
         return hotelService.create(hotelDto);
     }
 
     @PostMapping("/hotels/{id}/amenities")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @Operation(
-            summary = "Добавление списка удобств к отелю",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Список удобств для добавления к отелю",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = AmenitiesDto.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Пример добавления удобств",
-                                            value = """
-                                                    {
-                                                      "amenities": ["testAmenity1", "testAmenity2"]
-                                                    }
-                                                    """
-                                    )
-                            }
-                    )
-            ),
-            responses = {
-                    @ApiResponse(responseCode = "204", description = "Список удобств добавлен"),
-                    @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))),
-                    @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))
-            }
-    )
-    public void addAmenities(@PathVariable Long id, @Valid @RequestBody AmenitiesDto amenities) {
+    @Operation(summary = "Добавление списка удобств к отелю", requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Список удобств для добавления к отелю", required = true, content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class), examples = {@ExampleObject(name = "Пример добавления удобств", value = """
+            [
+            	"Free parking",
+            	"Free WiFi",
+            	"Non-smoking rooms",
+            	"Concierge",
+            	"On-site restaurant",
+            	"Fitness center",
+            	"Pet-friendly rooms",
+            	"Room service",
+            	"Business center",
+            	"Meeting rooms"
+            ]
+            """)})), responses = {@ApiResponse(responseCode = "204", description = "Список удобств добавлен"), @ApiResponse(responseCode = "400", description = "Валидация провалена", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class))), @ApiResponse(responseCode = "404", description = "Отель не найден", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionResponse.class)))})
+    public void addAmenities(@PathVariable Long id, @RequestBody List<String> amenities) {
         hotelService.addAmenities(id, amenities);
     }
 

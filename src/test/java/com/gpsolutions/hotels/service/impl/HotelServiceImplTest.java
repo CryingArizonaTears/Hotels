@@ -1,6 +1,5 @@
 package com.gpsolutions.hotels.service.impl;
 
-import com.gpsolutions.hotels.dto.AmenitiesDto;
 import com.gpsolutions.hotels.dto.HotelFullDto;
 import com.gpsolutions.hotels.dto.HotelShortDto;
 import com.gpsolutions.hotels.entity.Hotel;
@@ -19,7 +18,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -76,7 +74,7 @@ class HotelServiceImplTest {
 
     @Test
     void search_Success() {
-        hotelForTestingFirst.setAmenities(Set.of("testAmenity1", "testAmenity2"));
+        hotelForTestingFirst.setAmenities(List.of("testAmenity1", "testAmenity2"));
         when(hotelRepository.findAll(any(Specification.class))).thenReturn(List.of(hotelForTestingFirst));
 
         var resultName = hotelServiceImpl.search("testName1", null, null, null, null);
@@ -109,7 +107,7 @@ class HotelServiceImplTest {
 
     @Test
     void addAmenities_Success() {
-        AmenitiesDto amenitiesDtoForTesting = new AmenitiesDto(Set.of("testAmenity1", "testAmenity2"));
+        List<String> amenitiesDtoForTesting = List.of("testAmenity1", "testAmenity2");
         when(hotelRepository.findById(any())).thenReturn(Optional.ofNullable(hotelForTestingFirst));
         hotelServiceImpl.addAmenities(1L, amenitiesDtoForTesting);
         verify(hotelRepository).save(argThat(hotel -> hotel.getAmenities().contains("testAmenity1") && hotel.getAmenities().contains("testAmenity2")));
@@ -119,7 +117,7 @@ class HotelServiceImplTest {
     void addAmenities_NotFound() {
         when(hotelRepository.findById(1L)).thenReturn(Optional.empty());
         assertThatThrownBy(() ->
-                hotelServiceImpl.addAmenities(1L, new AmenitiesDto(Set.of()))
+                hotelServiceImpl.addAmenities(1L, List.of())
         ).isInstanceOf(EntityNotFoundException.class);
     }
 }
